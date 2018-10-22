@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Point.h">
+      <Filter>Geometries</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="RtreeContainsPoint.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{f3405c6b-de69-4171-b80a-f5f53adc826c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometries">
+      <UniqueIdentifier>{b8d6f97f-f3a0-4377-9cd3-1c071e7f8dff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
