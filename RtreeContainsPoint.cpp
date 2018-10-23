@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include <cassert>
 #include "Point.h"
+#include "Cs.h"
+#include "Rtree.h"
 
-template <typename Params>
 void TestOne () {
     using Pt = Geometry::Model::Point<double, 2, Geometry::Cs::Cartesian>;
-    using Rtree = Geometry::Index::Rtree<Pt, Params>;
+    using Rtree = Geometry::Index::Rtree<Pt>;
 
     Rtree rtree;
     rtree.insert(Pt(0, 0));
@@ -24,7 +25,5 @@ void TestOne () {
 }
 
 void TestRtreeContainsPoint () {
-    TestOne<Geometry::Index::Linear<4>>();
-    TestOne<Geometry::Index::Quadratic<4>>();
-    TestOne<Geometry::Index::Rstar<4>>();
+    TestOne();
 }
