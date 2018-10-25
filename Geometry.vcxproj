@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Cs.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Rtree.h" />
     <ClInclude Include="stdafx.h" />

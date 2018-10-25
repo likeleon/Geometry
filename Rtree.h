@@ -1,4 +1,8 @@
-#pragma once
+﻿#pragma once
+
+#include <cassert>
+#include <memory>
+#include "Node.h"
 
 namespace Geometry {
 namespace Index {
@@ -28,9 +32,36 @@ class Rtree {
 
 public:
     void Insert (const Value& value) {
+        if (root == nullptr) {
+            RawCreate();
+        }
+
+        RawInsert(value);
+    }
+
+    size_t size () const {
+        return values_count_;
+    }
+
+    bool empty () const {
+        return values_count_ == 0;
     }
 
 private:
+    void RawCreate () {
+        root = std::make_unique<Leaf>();
+    }
+
+    void RawInsert (const Value& value) {
+        assert(root != nullptr && "The root must exist");
+
+        // TODO
+
+        ++values_count_;
+    }
+
+    std::unique_ptr<Leaf> root;
+    std::size_t values_count_ = 0;
 };
 
 } // namespace Index

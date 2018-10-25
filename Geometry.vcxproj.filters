@@ -12,6 +12,9 @@
     <ClInclude Include="Rtree.h">
       <Filter>Geometries</Filter>
     </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Geometries</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
