@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include <cassert>
-#include "Point.h"
-#include "Cs.h"
-#include "Rtree.h"
+#include "Test/Point.h"
+#include "Test/Cs.h"
+#include "Geometry/Public/Rtree.h"
 
 void TestOne () {
-    using Pt = Geometry::Model::Point<double, 2, Geometry::Cs::Cartesian>;
+    using Pt = Point<double, 2, Cartesian>;
     using Rtree = Geometry::Index::Rtree<Pt>;
 
     Rtree rtree;

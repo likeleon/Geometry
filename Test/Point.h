@@ -2,9 +2,6 @@
 
 #include <cstddef>
 
-namespace Geometry {
-namespace Model {
-
 namespace Detail {
 
 template <std::size_t DimensionCount, std::size_t Index>
@@ -18,21 +15,21 @@ struct ArrayAssign {
 template <>
 struct ArrayAssign<2, 2> {
     template <typename T>
-    static void Applay(T[], const T&) {
+    static void Apply(T[], const T&) {
     }
 };
 
 template <>
 struct ArrayAssign<1, 1> {
     template <typename T>
-    static void Applay(T[], const T&) {
+    static void Apply(T[], const T&) {
     }
 };
 
 template <>
 struct ArrayAssign<1, 2> {
     template <typename T>
-    static void Applay(T[], const T&) {
+    static void Apply(T[], const T&) {
     }
 };
 
@@ -78,6 +75,3 @@ public:
 private:
     CoordinateType values_[DimensionCount];
 };
-
-} // namespace Model
-} // namespace Geometry

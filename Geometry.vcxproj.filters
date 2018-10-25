@@ -3,32 +3,38 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Point.h">
-      <Filter>Geometries</Filter>
+    <ClInclude Include="Test\Cs.h">
+      <Filter>Test</Filter>
     </ClInclude>
-    <ClInclude Include="Cs.h">
-      <Filter>Geometries</Filter>
+    <ClInclude Include="Test\Point.h">
+      <Filter>Test</Filter>
     </ClInclude>
-    <ClInclude Include="Rtree.h">
-      <Filter>Geometries</Filter>
+    <ClInclude Include="Geometry\Public\Node.h">
+      <Filter>Geometry\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Geometries</Filter>
+    <ClInclude Include="Geometry\Public\Rtree.h">
+      <Filter>Geometry\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="RtreeContainsPoint.cpp">
-      <Filter>Tests</Filter>
+    <ClCompile Include="Test\RtreeContainsPoint.cpp">
+      <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Tests">
+    <Filter Include="Test">
       <UniqueIdentifier>{f3405c6b-de69-4171-b80a-f5f53adc826c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Geometries">
+    <Filter Include="Geometry">
       <UniqueIdentifier>{b8d6f97f-f3a0-4377-9cd3-1c071e7f8dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry\Public">
+      <UniqueIdentifier>{27e9cf2e-671e-4404-9429-5c96dbffbcd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry\Private">
+      <UniqueIdentifier>{65d7012c-3f25-49a0-ba53-10bfe1bcf422}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
