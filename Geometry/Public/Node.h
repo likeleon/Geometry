@@ -11,8 +11,9 @@ struct Node {
 	}
 };
 
+template <typename Box>
 struct InternalNode : public Node {
-	using ElementType = Node*;
+	using ElementType = std::pair<Box, Node*>;
 	using ElementsType = std::vector<ElementType>;
 
 	ElementsType elements;

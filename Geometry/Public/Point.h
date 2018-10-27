@@ -2,6 +2,8 @@
 
 #include <cstddef>
 
+#include "Geometry/Public/Traits.h"
+
 namespace Geometry {
 namespace Index {
 
@@ -79,5 +81,18 @@ private:
 	CoordinateType values_[DimensionCount];
 };
 
+namespace Traits {
+
+template <typename CoordinateType, std::size_t DimensionCount>
+struct Cooridnate<Point<CoordinateType, DimensionCount>> {
+	using Type = CoordinateType;
+};
+
+template <typename CoordinateType, std::size_t DimensionCount>
+struct Dimension<Point<CoordinateType, DimensionCount>>
+	: std::integral_constant<std::size_t, DimensionCount> {
+};
+
+} // namespace Traits
 } // namespace Index
 } // namespace Geometry

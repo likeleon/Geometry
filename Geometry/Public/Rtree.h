@@ -3,9 +3,11 @@
 #include <cassert>
 #include <memory>
 
+#include "Geometry/Public/Box.h"
 #include "Geometry/Public/InsertVisitor.h"
 #include "Geometry/Public/Indexable.h"
 #include "Geometry/Public/Node.h"
+#include "Geometry/Public/Traits.h"
 
 namespace Geometry {
 namespace Index {
@@ -33,6 +35,11 @@ class Rtree {
 
 public:
 	using Indexable = Indexable<Value>;
+	
+	using IndexableType = std::remove_cv_t<std::remove_reference_t<typename Indexable::ResultType>>;
+	using BoxType = Box<Point<typename Traits::Cooridnate<IndexableType>::Type, Traits::Dimension<IndexableType>::value>>;
+	
+	using InternalNode = Detail::InternalNode<BoxType>;
 	using Leaf = Detail::Leaf<Value>;
 
 	void Insert (const Value& value) {
