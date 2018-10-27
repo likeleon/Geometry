@@ -7,7 +7,7 @@
 namespace Geometry {
 namespace Index {
 
-template <typename Value, size_t MinElements, size_t MaxElements>
+template <typename Value, size_t MinElements, size_t MaxElements, typename Box>
 class InsertVisitor {
 	using Node = Detail::Node;
 	using Leaf = Detail::Leaf<Value>;
@@ -35,6 +35,7 @@ private:
 
 	template <typename NodeType>
 	void Split (NodeType& node) {
+		Box box, box2;
 		std::unique_ptr<NodeType> second_node = std::make_unique<NodeType>();
 		
 		RedistributeElements(node, *second_node);
@@ -53,14 +54,23 @@ private:
 		ElementsType& elements2 = second_node.elements;
 		assert(elements1.size() == MaxElements + 1);
 
+		// 원본 요소들을 복사
 		std::vector<ElementType> elements_copy(elements1.begin(), elements1.end());
+		std::vector<ElementType> elements_backup(elements1.begin(), elements1.end());
 
+		// 초기 시드값을 계산
 		size_t seed1 = 0;
 		size_t seed2 = 0;
-		PickSeeds(elements_copy, seed1, seed2);
+		PickSeeds<Box>(elements_copy, seed1, seed2);
+		
+		// 노드의 요소들을 준비
+		elements1.clear();
+
+		elements1.push_back(elements_copy[seed1]);
+		elements1.push_back(elements_copy[seed2]);
 	}
 
-	template <typename Elements>
+	template <typename Box, typename Elements>
 	void PickSeeds (const Elements elements, size_t& seed1, size_t& seed2) {
 		assert(elements.size() == MaxElements + 1);
 		assert(2 <= elements.size());

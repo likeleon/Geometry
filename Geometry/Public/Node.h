@@ -13,7 +13,7 @@ struct Node {
 
 template <typename Box>
 struct InternalNode : public Node {
-	using ElementType = std::pair<Box, Node*>;
+	using ElementType = std::pair<Box, std::unique_ptr<Node>>;
 	using ElementsType = std::vector<ElementType>;
 
 	ElementsType elements;

@@ -27,6 +27,9 @@
     <ClInclude Include="Geometry\Public\Traits.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry\Public\Content.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />

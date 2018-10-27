@@ -72,7 +72,7 @@ private:
 	void RawInsert (const Value& value) {
 		assert(root_ != nullptr && "The root must exist");
 
-		InsertVisitor<Value, MinElements, MaxElements> insert_visitor(*root_, value, depth_, 0 /* relative_level */);
+		InsertVisitor<Value, MinElements, MaxElements, BoxType> insert_visitor(*root_, value, depth_, 0 /* relative_level */);
 
 		++values_count_;
 	}
