@@ -18,6 +18,9 @@
     <ClInclude Include="Geometry\Public\Point.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry\Public\InsertVisitor.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />

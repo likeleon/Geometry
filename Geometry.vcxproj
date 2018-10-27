@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Public\Indexable.h" />
+    <ClInclude Include="Geometry\Public\InsertVisitor.h" />
     <ClInclude Include="Geometry\Public\IsIndexable.h" />
     <ClInclude Include="Geometry\Public\Node.h" />
     <ClInclude Include="Geometry\Public\Point.h" />

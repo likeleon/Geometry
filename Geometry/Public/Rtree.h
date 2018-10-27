@@ -3,6 +3,7 @@
 #include <cassert>
 #include <memory>
 
+#include "Geometry/Public/InsertVisitor.h"
 #include "Geometry/Public/Indexable.h"
 #include "Geometry/Public/Node.h"
 
@@ -35,7 +36,7 @@ public:
 	using Leaf = Detail::Leaf<Value>;
 
 	void Insert (const Value& value) {
-		if (root == nullptr) {
+		if (root_ == nullptr) {
 			RawCreate();
 		}
 
@@ -50,23 +51,28 @@ public:
 		return values_count_ == 0;
 	}
 
+	size_t depth () const {
+		return depth_;
+	}
+
 private:
 	void RawCreate () {
-		root = std::make_unique<Leaf>();
+		root_ = std::make_unique<Leaf>();
+		values_count_ = 0;
+		depth_ = 0;
 	}
 
 	void RawInsert (const Value& value) {
-		assert(root != nullptr && "The root must exist");
+		assert(root_ != nullptr && "The root must exist");
 
-		// TODO
-		typename Indexable::ResultType x = 0;
-		(void)x;
+		InsertVisitor<Value, MinElements, MaxElements> insert_visitor(*root_, value, depth_, 0 /* relative_level */);
 
 		++values_count_;
 	}
 
-	std::unique_ptr<Leaf> root;
-	std::size_t values_count_ = 0;
+	std::unique_ptr<Leaf> root_;
+	size_t values_count_ = 0;
+	size_t depth_ = 0;
 };
 
 } // namespace Index
