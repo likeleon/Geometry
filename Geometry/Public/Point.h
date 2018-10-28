@@ -2,7 +2,9 @@
 
 #include <cstddef>
 
-#include "Geometry/Public/Traits.h"
+#include "Geometry/Public/Access.h"
+#include "Geometry/Public/CoordinateType.h"
+#include "Geometry/Public/CoordinateDimension.h"
 
 namespace Geometry {
 namespace Index {
@@ -67,14 +69,14 @@ public:
 
 	template <std::size_t K>
 	const CoordinateType& Get () const {
-		static_assert(K < DimensionCount);
-		return values[K];
+		static_assert(K < DimensionCount, "K < DimensionCount");
+		return values_[K];
 	}
 
 	template <std::size_t K>
 	void Set (const CoordinateType& value) {
-		static_assert(K < DimensionCount);
-		values[K] = value;
+		static_assert(K < DimensionCount, "K < DimensionCount");
+		values_[K] = value;
 	}
 
 private:
@@ -83,8 +85,19 @@ private:
 
 namespace Traits {
 
+template <typename CoordinateType, std::size_t DimensionCount, std::size_t Dimension>
+struct Access<Point<CoordinateType, DimensionCount>, Dimension> {
+	static CoordinateType Get (const Point<CoordinateType, DimensionCount>& point) {
+		return point.Get<Dimension>();
+	}
+
+	static void Set (Point<CoordinateType, DimensionCount>& point, const CoordinateType& value) {
+		point.Set<Dimension>(value);
+	}
+};
+
 template <typename CoordinateType, std::size_t DimensionCount>
-struct Cooridnate<Point<CoordinateType, DimensionCount>> {
+struct Coordinate<Point<CoordinateType, DimensionCount>> {
 	using Type = CoordinateType;
 };
 

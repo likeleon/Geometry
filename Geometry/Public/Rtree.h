@@ -4,10 +4,10 @@
 #include <memory>
 
 #include "Geometry/Public/Box.h"
+#include "Geometry/Public/CoordinateType.h"
 #include "Geometry/Public/InsertVisitor.h"
 #include "Geometry/Public/Indexable.h"
 #include "Geometry/Public/Node.h"
-#include "Geometry/Public/Traits.h"
 #include "Geometry/Public/Translator.h"
 
 namespace Geometry {
@@ -38,7 +38,7 @@ public:
 	using Indexable = Indexable<Value>;
 
 	using IndexableType = typename Detail::IndexableType<Detail::Translator<Indexable>>::Type;
-	using BoxType = Box<Point<typename Traits::Cooridnate<IndexableType>::Type, Traits::Dimension<IndexableType>::value>>;
+	using BoxType = Box<Point<Traits::CoordinateT<IndexableType>, Traits::Dimension<IndexableType>::value>>;
 
 private:
 	using TranslatorType = Detail::Translator<Indexable>;

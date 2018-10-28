@@ -24,10 +24,19 @@
     <ClInclude Include="Geometry\Public\Box.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry\Public\Traits.h">
+    <ClInclude Include="Geometry\Public\Translator.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry\Public\Translator.h">
+    <ClInclude Include="Geometry\Public\Convert.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry\Public\Access.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry\Public\CoordinateDimension.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry\Public\CoordinateType.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
   </ItemGroup>

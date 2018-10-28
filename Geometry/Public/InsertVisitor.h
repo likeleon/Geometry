@@ -4,6 +4,7 @@
 #include <tuple>
 #include <utility>
 
+#include "Geometry/Public/Convert.h"
 #include "Geometry/Public/Node.h"
 #include "Geometry/Public/Translator.h"
 
@@ -101,6 +102,9 @@ private:
 			for (size_t j = i + 1; j < elements.size(); ++j) {
 				const IndexableType& index1 = Detail::ElementIndexable(elements[i], *translator_);
 				const IndexableType& index2 = Detail::ElementIndexable(elements[j], *translator_);
+
+				Box enlarged_box;
+				Convert(index1, enlarged_box);
 
 				// TODO
 			}
