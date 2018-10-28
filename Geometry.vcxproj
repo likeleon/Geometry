@@ -156,6 +156,7 @@
     <ClInclude Include="Geometry\Public\Box.h" />
     <ClInclude Include="Geometry\Public\CoordinateType.h" />
     <ClInclude Include="Geometry\Public\CoordinateDimension.h" />
+    <ClInclude Include="Geometry\Public\Expand.h" />
     <ClInclude Include="Geometry\Public\Indexable.h" />
     <ClInclude Include="Geometry\Public\InsertVisitor.h" />
     <ClInclude Include="Geometry\Public\IsIndexable.h" />

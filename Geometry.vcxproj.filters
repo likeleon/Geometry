@@ -39,6 +39,9 @@
     <ClInclude Include="Geometry\Public\CoordinateType.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry\Public\Expand.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />

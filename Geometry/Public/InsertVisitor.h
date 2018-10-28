@@ -1,10 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 #include <memory>
 #include <tuple>
 #include <utility>
 
 #include "Geometry/Public/Convert.h"
+#include "Geometry/Public/Expand.h"
 #include "Geometry/Public/Node.h"
 #include "Geometry/Public/Translator.h"
 
@@ -73,16 +74,16 @@ private:
 		ElementsType& elements2 = second_node.elements;
 		assert(elements1.size() == MaxElements + 1);
 
-		// ¿øº» ¿ä¼ÒµéÀ» º¹»ç
+		// ì›ë³¸ ìš”ì†Œë“¤ì„ ë³µì‚¬
 		std::vector<ElementType> elements_copy(elements1.begin(), elements1.end());
 		std::vector<ElementType> elements_backup(elements1.begin(), elements1.end());
 
-		// ÃÊ±â ½Ãµå°ªÀ» °è»ê
+		// ì´ˆê¸° ì‹œë“œê°’ì„ ê³„ì‚°
 		size_t seed1;
 		size_t seed2;
 		std::tie(seed1, seed2) = PickSeeds<Box>(elements_copy);
-		
-		// ³ëµåÀÇ ¿ä¼ÒµéÀ» ÁØºñ
+
+		// ë…¸ë“œì˜ ìš”ì†Œë“¤ì„ ì¤€ë¹„
 		elements1.clear();
 
 		elements1.push_back(elements_copy[seed1]);
@@ -105,6 +106,8 @@ private:
 
 				Box enlarged_box;
 				Convert(index1, enlarged_box);
+
+				Expand(enlarged_box, index2);
 
 				// TODO
 			}

@@ -43,7 +43,7 @@ struct IndexedAccess<Box<Point>, 0, Dimension> {
 	using CoordinateType = Traits::CoordinateT<Point>;
 
 	static CoordinateType Get (const Box<Point>& box) {
-		return Get<Dimension>(box.min_corner());
+		return Index::Get<Dimension>(box.min_corner());
 	}
 
 	static void Set (Box<Point>& box, const CoordinateType& value) {
@@ -56,7 +56,7 @@ struct IndexedAccess<Box<Point>, 1, Dimension> {
 	using CoordinateType = Traits::CoordinateT<Point>;
 
 	static CoordinateType Get (const Box<Point>& box) {
-		return Get<Dimension>(box.max_corner());
+		return Index::Get<Dimension>(box.max_corner());
 	}
 
 	static void Set (Box<Point>& box, const CoordinateType& value) {
