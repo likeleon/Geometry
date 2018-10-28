@@ -27,7 +27,7 @@
     <ClInclude Include="Geometry\Public\Traits.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry\Public\Content.h">
+    <ClInclude Include="Geometry\Public\Translator.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "Geometry/Public/Translator.h"
+
 namespace Geometry {
 namespace Index {
 namespace Detail {
@@ -25,6 +27,11 @@ struct Leaf : public Node {
 	
 	ElementsType elements;
 };
+
+template <typename Element, typename Translator>
+ResultTypeT<Translator> ElementIndexable (const Element& element, const Translator& translator) {
+	return translator(element);
+}
 
 } // namespace Detail
 } // namespace Index

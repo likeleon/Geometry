@@ -8,6 +8,7 @@
 #include "Geometry/Public/Indexable.h"
 #include "Geometry/Public/Node.h"
 #include "Geometry/Public/Traits.h"
+#include "Geometry/Public/Translator.h"
 
 namespace Geometry {
 namespace Index {
@@ -35,13 +36,16 @@ class Rtree {
 
 public:
 	using Indexable = Indexable<Value>;
-	
-	using IndexableType = std::remove_cv_t<std::remove_reference_t<typename Indexable::ResultType>>;
+
+	using IndexableType = typename Detail::IndexableType<Detail::Translator<Indexable>>::Type;
 	using BoxType = Box<Point<typename Traits::Cooridnate<IndexableType>::Type, Traits::Dimension<IndexableType>::value>>;
-	
+
+private:
+	using TranslatorType = Detail::Translator<Indexable>;
 	using InternalNode = Detail::InternalNode<BoxType>;
 	using Leaf = Detail::Leaf<Value>;
 
+public:		
 	void Insert (const Value& value) {
 		if (root_ == nullptr) {
 			RawCreate();
@@ -72,11 +76,14 @@ private:
 	void RawInsert (const Value& value) {
 		assert(root_ != nullptr && "The root must exist");
 
-		InsertVisitor<Value, MinElements, MaxElements, BoxType> insert_visitor(*root_, value, depth_, 0 /* relative_level */);
+		InsertVisitor<Value, MinElements, MaxElements, TranslatorType, BoxType> 
+			insert_visitor(*root_, value, depth_, 0 /* relative_level */, translator_);
+		insert_visitor(*root_);
 
 		++values_count_;
 	}
 
+	TranslatorType translator_;
 	std::unique_ptr<Leaf> root_;
 	size_t values_count_ = 0;
 	size_t depth_ = 0;

@@ -6,7 +6,7 @@
 
 void TestOne () {
     using Pt = Geometry::Index::Point<double, 2>;
-    using Rtree = Geometry::Index::Rtree<Pt, 16>;
+    using Rtree = Geometry::Index::Rtree<Pt, 4>;
 
     Rtree rtree;
     rtree.Insert(Pt(0, 0));

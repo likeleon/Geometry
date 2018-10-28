@@ -152,7 +152,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Public\Box.h" />
-    <ClInclude Include="Geometry\Public\Content.h" />
     <ClInclude Include="Geometry\Public\Traits.h" />
     <ClInclude Include="Geometry\Public\Indexable.h" />
     <ClInclude Include="Geometry\Public\InsertVisitor.h" />
@@ -160,6 +159,7 @@
     <ClInclude Include="Geometry\Public\Node.h" />
     <ClInclude Include="Geometry\Public\Point.h" />
     <ClInclude Include="Geometry\Public\Rtree.h" />
+    <ClInclude Include="Geometry\Public\Translator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
