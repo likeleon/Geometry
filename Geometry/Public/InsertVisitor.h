@@ -4,6 +4,7 @@
 #include <tuple>
 #include <utility>
 
+#include "Geometry/Public/BoundedView.h"
 #include "Geometry/Public/Convert.h"
 #include "Geometry/Public/Expand.h"
 #include "Geometry/Public/Node.h"
@@ -12,22 +13,9 @@
 namespace Geometry {
 namespace Index {
 
-namespace Detail {
-
-template <typename Translator>
-struct ElementIndexableType {
-	using Type = typename IndexableType<Translator>::Type;
-};
-
-template <typename Translator>
-using ElementIndexableTypeT = typename ElementIndexableType<Translator>::Type;
-
-} // namespace Detail
-
 template <typename Value, size_t MinElements, size_t MaxElements, typename Translator, typename Box>
 class InsertVisitor {
 private:
-	using IndexableType = Detail::ElementIndexableTypeT<Translator>;
 	using Node = Detail::Node;
 	using Leaf = Detail::Leaf<Value>;
 
@@ -91,13 +79,17 @@ private:
 	}
 
 	template <typename Box, typename Elements>
-	std::pair<size_t, size_t> PickSeeds (const Elements elements) {
-		long double greatest_free_content = 0;
-		size_t seed1 = 0;
-		size_t seed2 = 0;
+	std::pair<size_t, size_t> PickSeeds (const Elements& elements) {
+		using ElementType = typename Elements::value_type;
+		using IndexableType = typename Detail::ElementIndexableType<ElementType, Translator>::Type;
+		using BoundedIndexableView = Detail::BoundedView<IndexableType, Box>;
 
 		assert(elements.size() == MaxElements + 1);
 		assert(2 <= elements.size());
+
+		long double greatest_free_content = 0;
+		size_t seed1 = 0;
+		size_t seed2 = 0;
 
 		for (size_t i = 0; i < elements.size() - 1; ++i) {
 			for (size_t j = i + 1; j < elements.size(); ++j) {
@@ -108,6 +100,9 @@ private:
 				Convert(index1, enlarged_box);
 
 				Expand(enlarged_box, index2);
+
+				BoundedIndexableView bounded_index1(index1);
+				BoundedIndexableView bounded_index2(index2);
 
 				// TODO
 			}

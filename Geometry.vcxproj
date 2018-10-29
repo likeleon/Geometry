@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Geometry\Public\Access.h" />
+    <ClInclude Include="Geometry\Public\BoundedView.h" />
     <ClInclude Include="Geometry\Public\Convert.h" />
     <ClInclude Include="Geometry\Public\Box.h" />
     <ClInclude Include="Geometry\Public\CoordinateType.h" />

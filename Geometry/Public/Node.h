@@ -29,6 +29,11 @@ struct Leaf : public Node {
 };
 
 template <typename Element, typename Translator>
+struct ElementIndexableType {
+	using Type = typename IndexableType<Translator>::Type;
+};
+
+template <typename Element, typename Translator>
 ResultTypeT<Translator> ElementIndexable (const Element& element, const Translator& translator) {
 	return translator(element);
 }
