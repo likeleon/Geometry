@@ -1,9 +1,11 @@
 ﻿#pragma once
 
+#include "Geometry/Public/Box.h"
 #include "Geometry/Public/CoordinateDimension.h"
 #include "Geometry/Public/CoordinateType.h"
-#include "Geometry/Public/Box.h"
 #include "Geometry/Public/Point.h"
+#include "Geometry/Public/Tag.h"
+#include "Geometry/Public/Tags.h"
 
 namespace Geometry {
 namespace Index {
@@ -14,7 +16,7 @@ template <std::size_t Dimension, std::size_t DimensionCount>
 struct PointLoop {
 	template <typename Box, typename Point>
 	static void Apply (Box& box, const Point& source) {
-		using CoordinateType = Traits::CoordinateT<Point>;
+		using CoordinateType = typename CoordinateType<Point>::Type;
 
 		std::less<CoordinateType> less;
 		std::greater<CoordinateType> greater;
@@ -40,15 +42,30 @@ struct PointLoop<DimensionCount, DimensionCount> {
 	}
 };
 
-template <typename BoxOut, typename Point>
-struct Expand : PointLoop<0, Traits::Dimension<Point>::value> {
+} // namespace Detail
+
+namespace Dispatch {
+
+template <
+	typename GeometryOut,
+	typename Geometry,
+	typename TagOut = typename Tag<GeometryOut>::Type,
+	typename Tag = typename Tag<Geometry>::Type
+>
+struct Expand {
 };
 
-} // namespace Detail
+template <typename BoxOut, typename Point>
+struct Expand<BoxOut, Point, BoxTag, PointTag>
+	: public Detail::PointLoop<0, Dimension<Point>::value> {
+};
+
+} // namespace Dispatch
 
 template <typename GeometryOut, typename Geometry>
 void Expand (GeometryOut& geometry_out, const Geometry& geometry) {
-	Detail::Expand<GeometryOut, Geometry>::Apply(geometry_out, geometry);
+	Dispatch::Expand<GeometryOut, Geometry, typename Tag<GeometryOut>::Type, typename Tag<Geometry>::Type>
+		::Apply(geometry_out, geometry);
 };
 
 } // namespace Index

@@ -34,7 +34,7 @@ struct ElementIndexableType {
 };
 
 template <typename Element, typename Translator>
-ResultTypeT<Translator> ElementIndexable (const Element& element, const Translator& translator) {
+typename ResultType<Translator>::Type ElementIndexable (const Element& element, const Translator& translator) {
 	return translator(element);
 }
 

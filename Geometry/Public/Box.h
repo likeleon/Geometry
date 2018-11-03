@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 #include "Geometry/Public/Access.h"
-#include "Geometry/Public/CoordinateType.h"
+#include "Geometry/Public/PointType.h"
+#include "Geometry/Public/Tag.h"
+#include "Geometry/Public/Tags.h"
 
 namespace Geometry {
 namespace Index {
@@ -38,9 +40,19 @@ private:
 
 namespace Traits {
 
+template <typename Point>
+struct Tag<Box<Point>> {
+	using Type = BoxTag;
+};
+
+template <typename Point>
+struct PointType<Box<Point>> {
+	using Type = Point;
+};
+
 template <typename Point, std::size_t Dimension>
 struct IndexedAccess<Box<Point>, 0, Dimension> {
-	using CoordinateType = Traits::CoordinateT<Point>;
+	using CoordinateType = typename CoordinateType<Point>::Type;
 
 	static CoordinateType Get (const Box<Point>& box) {
 		return Index::Get<Dimension>(box.min_corner());
@@ -53,7 +65,7 @@ struct IndexedAccess<Box<Point>, 0, Dimension> {
 
 template <typename Point, std::size_t Dimension>
 struct IndexedAccess<Box<Point>, 1, Dimension> {
-	using CoordinateType = Traits::CoordinateT<Point>;
+	using CoordinateType = typename CoordinateType<Point>::Type;
 
 	static CoordinateType Get (const Box<Point>& box) {
 		return Index::Get<Dimension>(box.max_corner());
@@ -62,11 +74,6 @@ struct IndexedAccess<Box<Point>, 1, Dimension> {
 	static void Set (Box<Point>& box, const CoordinateType& value) {
 		Index::Set<Dimension>(box.max_corner(), value);
 	}
-};
-
-template <typename Point>
-struct Coordinate<Box<Point>> {
-	using Type = Traits::CoordinateT<Point>;
 };
 
 } // namespace Traits

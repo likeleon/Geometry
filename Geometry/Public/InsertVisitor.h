@@ -82,7 +82,7 @@ private:
 	std::pair<size_t, size_t> PickSeeds (const Elements& elements) {
 		using ElementType = typename Elements::value_type;
 		using IndexableType = typename Detail::ElementIndexableType<ElementType, Translator>::Type;
-		using BoundedIndexableView = Detail::BoundedView<IndexableType, Box>;
+		using BoundedIndexableView = Detail::BoundedView<IndexableType, Box, typename Tag<IndexableType>::Type, typename Tag<Box>::Type>;
 
 		assert(elements.size() == MaxElements + 1);
 		assert(2 <= elements.size());

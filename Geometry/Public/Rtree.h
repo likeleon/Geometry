@@ -38,7 +38,7 @@ public:
 	using Indexable = Indexable<Value>;
 
 	using IndexableType = typename Detail::IndexableType<Detail::Translator<Indexable>>::Type;
-	using BoxType = Box<Point<Traits::CoordinateT<IndexableType>, Traits::Dimension<IndexableType>::value>>;
+	using BoxType = Box<Point<CoordinateType<IndexableType>, Dimension<IndexableType>::value>>;
 
 private:
 	using TranslatorType = Detail::Translator<Indexable>;

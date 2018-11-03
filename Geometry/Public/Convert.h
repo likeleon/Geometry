@@ -1,8 +1,10 @@
 ﻿#pragma once
 
 #include "Geometry/Public/Access.h"
-#include "Geometry/Public/Point.h"
-#include "Geometry/Public/Box.h"
+#include "Geometry/Public/CoordinateDimension.h"
+#include "Geometry/Public/CoordinateType.h"
+#include "Geometry/Public/Tag.h"
+#include "Geometry/Public/Tags.h"
 
 namespace Geometry {
 namespace Index {
@@ -12,9 +14,10 @@ namespace Detail {
 template <typename Point, typename Box, std::size_t Index, std::size_t Dimension, std::size_t DimensionCount>
 struct PointToBox {
 	static void Apply (const Point& point, Box& box) {
-		using CoordinateType = Traits::CoordinateT<Point>;
+		using CoordinateType = typename CoordinateType<Box>::Type;
 
-		Set<Index, Dimension>(box, Get<Dimension>(point));
+		auto x = Get<Dimension>(point);
+		Set<Index, Dimension>(box, x);
 
 		PointToBox<Point, Box, Index, Dimension + 1, DimensionCount>::Apply(point, box);
 	}
@@ -26,14 +29,25 @@ struct PointToBox<Point, Box, Index, DimensionCount, DimensionCount> {
 	}
 };
 
-template <typename Geometry1, typename Geometry2>
-struct Convert;
+template <
+	typename Geometry1, 
+	typename Geometry2, 
+	typename Tag1 = typename Tag<Geometry1>::Type,
+	typename Tag2 = typename Tag<Geometry2>::Type,
+	std::size_t DimensionCount = Dimension<Geometry1>::value
+>
+struct Convert {
+};
 
-template <typename CoordinateType, std::size_t DimensionCount>
-struct Convert<Point<CoordinateType, DimensionCount>, Box<Point<CoordinateType, DimensionCount>>> {
-	using Point = Point<CoordinateType, DimensionCount>;
-	using Box = Box<Point>;
+template <typename Geometry1, typename Geometry2, typename Tag, std::size_t DimensionCount>
+struct Convert<Geometry1, Geometry2, Tag, Tag, DimensionCount> {
+	static void Apply (const Geometry1& source, Geometry2& destination) {
+		destination = source;
+	}
+};
 
+template <typename Point, typename Box, std::size_t DimensionCount>
+struct Convert<Point, Box, PointTag, BoxTag, DimensionCount> {
 	static void Apply (const Point& point, Box& box) {
 		PointToBox<Point, Box, 0, 0, DimensionCount>::Apply(point, box);
 		PointToBox<Point, Box, 1, 0, DimensionCount>::Apply(point, box);

@@ -5,6 +5,8 @@
 #include "Geometry/Public/Access.h"
 #include "Geometry/Public/CoordinateType.h"
 #include "Geometry/Public/CoordinateDimension.h"
+#include "Geometry/Public/Tag.h"
+#include "Geometry/Public/Tags.h"
 
 namespace Geometry {
 namespace Index {
@@ -85,6 +87,11 @@ private:
 
 namespace Traits {
 
+template <typename CoordinateType, std::size_t DimensionCount>
+struct Tag<Point<CoordinateType, DimensionCount>> {
+	using Type = PointTag;
+};
+
 template <typename CoordinateType, std::size_t DimensionCount, std::size_t Dimension>
 struct Access<Point<CoordinateType, DimensionCount>, Dimension> {
 	static CoordinateType Get (const Point<CoordinateType, DimensionCount>& point) {
@@ -96,14 +103,14 @@ struct Access<Point<CoordinateType, DimensionCount>, Dimension> {
 	}
 };
 
-template <typename CoordinateType, std::size_t DimensionCount>
-struct Coordinate<Point<CoordinateType, DimensionCount>> {
-	using Type = CoordinateType;
+template <typename CoordinateType_, std::size_t DimensionCount>
+struct CoordinateType<Point<CoordinateType_, DimensionCount>> {
+	using Type = CoordinateType_;
 };
 
 template <typename CoordinateType, std::size_t DimensionCount>
 struct Dimension<Point<CoordinateType, DimensionCount>>
-	: std::integral_constant<std::size_t, DimensionCount> {
+	: public std::integral_constant<std::size_t, DimensionCount> {
 };
 
 } // namespace Traits

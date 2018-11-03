@@ -1,21 +1,28 @@
 #pragma once
 
-#include "Geometry/Public/Box.h"
 #include "Geometry/Public/CoordinateType.h"
-#include "Geometry/Public/Point.h"
+#include "Geometry/Public/Tag.h"
+#include "Geometry/Public/Tags.h"
 
 namespace Geometry {
 namespace Index {
 namespace Detail {
 
-template <typename Geometry, typename Box>
+template <
+	typename Geometry,
+	typename BoundingGeometry,
+	typename Tag = typename Index::Tag<Geometry>::type,
+	typename Bounding = typename Index::Tag<BoundingGeometry>::Type
+>
 class BoundedView {
 };
 
-template <typename CoordinateType, std::size_t DimensionCount>
-class BoundedView<Point<CoordinateType, DimensionCount>, Box<Point<CoordinateType, DimensionCount>>> {
+template <typename Point, typename Box>
+class BoundedView<Point, Box, PointTag, BoxTag> {
 public:
-	explicit BoundedView (const Point<CoordinateType, DimensionCount>& point)
+	using CoordinateType = typename CoordinateType<Box>::Type;
+
+	explicit BoundedView (const Point& point)
 		: point_(&point) {
 	}
 
@@ -30,7 +37,7 @@ public:
 	}
 
 private:
-	const Point<CoordinateType, DimensionCount>* point_ = nullptr;
+	const Point* point_ = nullptr;
 };
 
 } // namespace Detail

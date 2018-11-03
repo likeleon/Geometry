@@ -21,11 +21,8 @@ struct ResultType {
 };
 
 template <typename Translator>
-using ResultTypeT = typename ResultType<Translator>::Type;
-
-template <typename Translator>
 struct IndexableType {
-	using Type = std::remove_cv_t<std::remove_reference_t<ResultTypeT<Translator>>>;
+	using Type = std::remove_cv_t<std::remove_reference_t<typename ResultType<Translator>::Type>>;
 };
 
 } // namespace Detail

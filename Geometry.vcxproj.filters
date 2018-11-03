@@ -45,6 +45,15 @@
     <ClInclude Include="Geometry\Public\BoundedView.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry\Public\Tags.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry\Public\Tag.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry\Public\PointType.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
