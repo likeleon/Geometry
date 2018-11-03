@@ -15,9 +15,6 @@
     <ClInclude Include="Geometry\Public\IsIndexable.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry\Public\Point.h">
-      <Filter>Geometry\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Geometry\Public\InsertVisitor.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
@@ -30,9 +27,6 @@
     <ClInclude Include="Geometry\Public\Convert.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry\Public\Access.h">
-      <Filter>Geometry\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Geometry\Public\CoordinateDimension.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
@@ -40,9 +34,6 @@
       <Filter>Geometry\Public</Filter>
     </ClInclude>
     <ClInclude Include="Geometry\Public\Expand.h">
-      <Filter>Geometry\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry\Public\BoundedView.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
     <ClInclude Include="Geometry\Public\Tags.h">
@@ -54,6 +45,7 @@
     <ClInclude Include="Geometry\Public\PointType.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Vec3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
