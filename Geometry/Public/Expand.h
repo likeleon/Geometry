@@ -7,7 +7,6 @@ namespace Geometry {
 namespace Index {
 
 void Expand (Box& box, const Math::Vec3& point) {
-
 	if (point.x < box.min_corner().x) {
 		box.min_corner().x = point.x;
 	}

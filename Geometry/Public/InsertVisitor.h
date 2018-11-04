@@ -4,9 +4,11 @@
 #include <tuple>
 #include <utility>
 
-#include "Geometry/Public/Node.h"
+#include "Geometry/Public/BoundedView.h"
+#include "Geometry/Public/Content.h"
 #include "Geometry/Public/Convert.h"
 #include "Geometry/Public/Expand.h"
+#include "Geometry/Public/Node.h"
 #include "Math/Vec3.h"
 
 namespace Geometry {
@@ -62,15 +64,19 @@ protected:
 
 		// 노드의 요소들을 준비
 		elements1.clear();
+		assert(elements2.empty());
 
 		elements1.push_back(elements_copy[seed1]);
-		elements1.push_back(elements_copy[seed2]);
+		elements2.push_back(elements_copy[seed2]);
+
+		// TODO
 	}
 
 	template <typename Elements>
 	std::pair<size_t, size_t> PickSeeds (const Elements& elements) {
 		using ElementType = typename Elements::value_type;
 		using IndexableType = typename Detail::ElementIndexableType<ElementType>::Type;
+		using BoundedIndexableView = Detail::BoundedView<IndexableType, Box>;
 
 		assert(elements.size() == MaxElements + 1);
 		assert(2 <= elements.size());
@@ -88,8 +94,20 @@ protected:
 				Index::Convert(index1, enlarged_box);
 
 				Expand(enlarged_box, index2);
-				Expand(enlarged_box, index2);
-				// TODO
+
+				BoundedIndexableView bounded_index1(index1);
+				BoundedIndexableView bounded_index2(index2);
+				
+				long double free_content =
+					Detail::Content(enlarged_box)
+					- Detail::Content(bounded_index1)
+					- Detail::Content(bounded_index2);
+
+				if (greatest_free_content < free_content) {
+					greatest_free_content = free_content;
+					seed1 = i;
+					seed2 = j;
+				}
 			}
 		}
 

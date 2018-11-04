@@ -24,6 +24,12 @@
     <ClInclude Include="Math\Vec3.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry\Public\BoundedView.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry\Public\Content.h">
+      <Filter>Geometry\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
