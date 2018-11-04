@@ -153,18 +153,10 @@
   <ItemGroup>
     <ClInclude Include="Geometry\Public\Convert.h" />
     <ClInclude Include="Geometry\Public\Box.h" />
-    <ClInclude Include="Geometry\Public\CoordinateType.h" />
-    <ClInclude Include="Geometry\Public\CoordinateDimension.h" />
     <ClInclude Include="Geometry\Public\Expand.h" />
-    <ClInclude Include="Geometry\Public\Indexable.h" />
     <ClInclude Include="Geometry\Public\InsertVisitor.h" />
-    <ClInclude Include="Geometry\Public\IsIndexable.h" />
     <ClInclude Include="Geometry\Public\Node.h" />
-    <ClInclude Include="Geometry\Public\PointType.h" />
     <ClInclude Include="Geometry\Public\Rtree.h" />
-    <ClInclude Include="Geometry\Public\Tag.h" />
-    <ClInclude Include="Geometry\Public\Tags.h" />
-    <ClInclude Include="Geometry\Public\Translator.h" />
     <ClInclude Include="Math\Vec3.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

@@ -4,36 +4,25 @@
 #include <tuple>
 #include <utility>
 
-#include "Geometry/Public/BoundedView.h"
+#include "Geometry/Public/Node.h"
 #include "Geometry/Public/Convert.h"
 #include "Geometry/Public/Expand.h"
-#include "Geometry/Public/Node.h"
-#include "Geometry/Public/Translator.h"
+#include "Math/Vec3.h"
 
 namespace Geometry {
 namespace Index {
 
-template <typename Value, size_t MinElements, size_t MaxElements, typename Translator, typename Box>
-class InsertVisitor {
-private:
-	using Node = Detail::Node;
-	using Leaf = Detail::Leaf<Value>;
+namespace Detail {
 
-public:
-	InsertVisitor (Node& root, const Value& value, size_t depth, size_t relative_level, const Translator& translator)
-		: root_(&root), value_(&value), depth_(depth), relative_level_(relative_level), 
-		  level_(depth - relative_level), translator_(&translator) {
+template <typename Element, typename Value, size_t MinElements, size_t MaxElements>
+class InsertVisitor {
+protected:
+	InsertVisitor (Detail::Node& root, const Element& element, size_t depth, size_t relative_level)
+		: root_(&root), element_(&element), depth_(depth), relative_level_(relative_level), level_(depth - relative_level) {
 		assert(relative_level_ <= depth_);
 		assert(level_ <= depth_);
 	}
 
-	void operator() (Leaf& leaf) {
-		leaf.elements.push_back(*value_);
-
-		HandleOverflow(leaf);
-	}
-
-private:
 	template <typename NodeType>
 	void HandleOverflow (NodeType& node) {
 		if (node.elements.size() > MaxElements) {
@@ -43,9 +32,9 @@ private:
 
 	template <typename NodeType>
 	void Split (NodeType& node) {
-		//Box box, box2;
+		Box box, box2;
 		std::unique_ptr<NodeType> second_node = std::make_unique<NodeType>();
-		
+
 		RedistributeElements(node, *second_node);
 		assert(MinElements <= node.elements.size() && node.elements.size() <= MaxElements);
 		assert(MinElements <= second_node->elements.size() && second_node->elements.size() <= MaxElements);
@@ -69,7 +58,7 @@ private:
 		// 초기 시드값을 계산
 		size_t seed1;
 		size_t seed2;
-		std::tie(seed1, seed2) = PickSeeds<Box>(elements_copy);
+		std::tie(seed1, seed2) = PickSeeds(elements_copy);
 
 		// 노드의 요소들을 준비
 		elements1.clear();
@@ -78,11 +67,10 @@ private:
 		elements1.push_back(elements_copy[seed2]);
 	}
 
-	template <typename Box, typename Elements>
+	template <typename Elements>
 	std::pair<size_t, size_t> PickSeeds (const Elements& elements) {
 		using ElementType = typename Elements::value_type;
-		using IndexableType = typename Detail::ElementIndexableType<ElementType, Translator>::Type;
-		using BoundedIndexableView = Detail::BoundedView<IndexableType, Box, typename Tag<IndexableType>::Type, typename Tag<Box>::Type>;
+		using IndexableType = typename Detail::ElementIndexableType<ElementType>::Type;
 
 		assert(elements.size() == MaxElements + 1);
 		assert(2 <= elements.size());
@@ -93,17 +81,14 @@ private:
 
 		for (size_t i = 0; i < elements.size() - 1; ++i) {
 			for (size_t j = i + 1; j < elements.size(); ++j) {
-				const IndexableType& index1 = Detail::ElementIndexable(elements[i], *translator_);
-				const IndexableType& index2 = Detail::ElementIndexable(elements[j], *translator_);
+				const IndexableType& index1 = ElementIndexable(elements[i]);
+				const IndexableType& index2 = ElementIndexable(elements[j]);
 
 				Box enlarged_box;
-				Convert(index1, enlarged_box);
+				Index::Convert(index1, enlarged_box);
 
 				Expand(enlarged_box, index2);
-
-				BoundedIndexableView bounded_index1(index1);
-				BoundedIndexableView bounded_index2(index2);
-
+				Expand(enlarged_box, index2);
 				// TODO
 			}
 		}
@@ -111,12 +96,36 @@ private:
 		return std::make_pair(seed1, seed2);
 	}
 
-	Node* root_ = nullptr;
-	const Value* value_ = nullptr;
+	Detail::Node* root_ = nullptr;
+	const Element* element_ = nullptr;
 	size_t depth_ = 0;
 	size_t relative_level_ = 0;
 	size_t level_ = 0;
-	const Translator* translator_ = nullptr;
+};
+
+} // namespace Detail
+
+template <typename Element, typename Value, size_t MinElements, size_t MaxElements>
+class InsertVisitor : public Detail::InsertVisitor<Element, Value, MinElements, MaxElements> {
+};
+
+template <typename Value, size_t MinElements, size_t MaxElements>
+class InsertVisitor<Value, Value, MinElements, MaxElements>
+	: public Detail::InsertVisitor<Value, Value, MinElements, MaxElements> {
+public:
+	using Base = Detail::InsertVisitor<Value, Value, MinElements, MaxElements>;
+	using Property = typename Value::second_type;
+	
+	InsertVisitor (Detail::Node& root, const Value& value, size_t depth, size_t relative_level)
+		: Base(root, value, depth, relative_level) {
+	}
+
+	void operator() (Detail::Leaf<Property>& leaf) {
+		std::pair<Math::Vec3, NoProperty> x = *Base::element_;
+		leaf.elements.push_back(x);
+
+		Base::HandleOverflow(leaf);
+	}
 };
 
 } // namespace Index

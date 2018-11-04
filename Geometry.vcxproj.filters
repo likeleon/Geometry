@@ -9,43 +9,21 @@
     <ClInclude Include="Geometry\Public\Rtree.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry\Public\Indexable.h">
-      <Filter>Geometry\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry\Public\IsIndexable.h">
-      <Filter>Geometry\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Geometry\Public\InsertVisitor.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
     <ClInclude Include="Geometry\Public\Box.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry\Public\Translator.h">
-      <Filter>Geometry\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Geometry\Public\Convert.h">
-      <Filter>Geometry\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry\Public\CoordinateDimension.h">
-      <Filter>Geometry\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry\Public\CoordinateType.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
     <ClInclude Include="Geometry\Public\Expand.h">
       <Filter>Geometry\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry\Public\Tags.h">
-      <Filter>Geometry\Public</Filter>
+    <ClInclude Include="Math\Vec3.h">
+      <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry\Public\Tag.h">
-      <Filter>Geometry\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometry\Public\PointType.h">
-      <Filter>Geometry\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vec3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -66,6 +44,9 @@
     </Filter>
     <Filter Include="Geometry\Private">
       <UniqueIdentifier>{65d7012c-3f25-49a0-ba53-10bfe1bcf422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{f7b706d9-41e9-44cf-aa5f-e4c549a0a426}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

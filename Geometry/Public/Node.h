@@ -2,7 +2,8 @@
 
 #include <vector>
 
-#include "Geometry/Public/Translator.h"
+#include "Geometry/Public/Box.h"
+#include "Math/Vec3.h"
 
 namespace Geometry {
 namespace Index {
@@ -13,29 +14,41 @@ struct Node {
 	}
 };
 
-template <typename Box>
 struct InternalNode : public Node {
-	using ElementType = std::pair<Box, std::unique_ptr<Node>>;
+	using ElementType = std::pair<Box, Node*>;
 	using ElementsType = std::vector<ElementType>;
 
 	ElementsType elements;
 };
 
-template <typename Value>
+template <typename Property>
 struct Leaf : public Node {
-	using ElementsType = std::vector<Value>;
-	
+	using ElementType = std::pair<Math::Vec3, Property>;
+	using ElementsType = std::vector<ElementType>;
+
 	ElementsType elements;
 };
 
-template <typename Element, typename Translator>
+template <typename Element>
 struct ElementIndexableType {
-	using Type = typename IndexableType<Translator>::Type;
 };
 
-template <typename Element, typename Translator>
-typename ResultType<Translator>::Type ElementIndexable (const Element& element, const Translator& translator) {
-	return translator(element);
+template <typename Property>
+struct ElementIndexableType<std::pair<Math::Vec3, Property>> {
+	using Type = Math::Vec3;
+};
+template <>
+struct ElementIndexableType<std::pair<Box, Node*>> {
+	using Type = Box;
+};
+
+template <typename Property>
+const Math::Vec3& ElementIndexable (const std::pair<Math::Vec3, Property>& value) {
+	return value.first;
+}
+
+const Box& ElementIndexable (const std::pair<Box, Node>& pair) {
+	return pair.first;
 }
 
 } // namespace Detail

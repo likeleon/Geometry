@@ -1,21 +1,17 @@
 #include "stdafx.h"
 #include <cassert>
-#include "Test/Cs.h"
-#include "Geometry/Public/Point.h"
 #include "Geometry/Public/Rtree.h"
+#include "Math/Vec3.h"
 
 void TestOne () {
-    using Pt = Geometry::Index::Point<double, 2>;
-    using Rtree = Geometry::Index::Rtree<Pt, 4>;
-
-    Rtree rtree;
-    rtree.Insert(Pt(0, 0));
-    rtree.Insert(Pt(1, 1));
-    rtree.Insert(Pt(2, 2));
-    rtree.Insert(Pt(3, 3));
-    rtree.Insert(Pt(4, 4));
-    rtree.Insert(Pt(4, 3));
-    rtree.Insert(Pt(0, 3));
+    Geometry::Index::Rtree<4> rtree;
+    rtree.Insert({ 0, 0, 0 });
+    rtree.Insert({ 1, 1, 0 });
+    rtree.Insert({ 2, 2, 0 });
+    rtree.Insert({ 3, 3, 0 });
+    rtree.Insert({ 4, 4, 0 });
+    rtree.Insert({ 4, 3, 0 });
+    rtree.Insert({ 0, 3, 0 });
 
     /*for (typename Rtree::const_iterator it = rtree.begin(); it != rtree.end(); ++it) {
         std::vector<Pt> result;

@@ -2,13 +2,12 @@
 
 #include <cassert>
 #include <memory>
+#include <utility>
 
 #include "Geometry/Public/Box.h"
-#include "Geometry/Public/CoordinateType.h"
 #include "Geometry/Public/InsertVisitor.h"
-#include "Geometry/Public/Indexable.h"
 #include "Geometry/Public/Node.h"
-#include "Geometry/Public/Translator.h"
+#include "Math/Vec3.h"
 
 namespace Geometry {
 namespace Index {
@@ -28,30 +27,27 @@ struct DefaultRstarReinsertedElements {
 
 } // namespace Detail
 
-template <typename Value,
-		  size_t MaxElements,
-		  size_t MinElements = Detail::DefaultMinElements<MaxElements>::value>
+struct NoProperty {
+};
+
+template <
+	size_t MaxElements, 
+	size_t MinElements = Detail::DefaultMinElements<MaxElements>::value,
+	typename Property = NoProperty
+>
 class Rtree {
 	static_assert(0 < MinElements && 2 * MinElements <= MaxElements + 1, "Invalid min max parameters");
+	
+	using Value = std::pair<Math::Vec3, Property>;
+	using Leaf = Detail::Leaf<Property>;
 
 public:
-	using Indexable = Indexable<Value>;
-
-	using IndexableType = typename Detail::IndexableType<Detail::Translator<Indexable>>::Type;
-	using BoxType = Box<Point<CoordinateType<IndexableType>, Dimension<IndexableType>::value>>;
-
-private:
-	using TranslatorType = Detail::Translator<Indexable>;
-	using InternalNode = Detail::InternalNode<BoxType>;
-	using Leaf = Detail::Leaf<Value>;
-
-public:		
-	void Insert (const Value& value) {
+	void Insert (const Math::Vec3& point, const Property& property = NoProperty()) {
 		if (root_ == nullptr) {
 			RawCreate();
 		}
 
-		RawInsert(value);
+		RawInsert(std::make_pair(point, property));
 	}
 
 	size_t size () const {
@@ -76,14 +72,12 @@ private:
 	void RawInsert (const Value& value) {
 		assert(root_ != nullptr && "The root must exist");
 
-		InsertVisitor<Value, MinElements, MaxElements, TranslatorType, BoxType> 
-			insert_visitor(*root_, value, depth_, 0 /* relative_level */, translator_);
+		InsertVisitor<Value, Value, MinElements, MaxElements> insert_visitor(*root_, value, depth_, 0 /* relative_level */);
 		insert_visitor(*root_);
 
 		++values_count_;
 	}
 
-	TranslatorType translator_;
 	std::unique_ptr<Leaf> root_;
 	size_t values_count_ = 0;
 	size_t depth_ = 0;
