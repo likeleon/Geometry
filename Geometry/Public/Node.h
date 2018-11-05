@@ -51,6 +51,17 @@ const Box& ElementIndexable (const std::pair<Box, Node>& pair) {
 	return pair.first;
 }
 
+template <typename Container, typename Iterator>
+void MoveFromBack (Container& container, Iterator it) {
+	assert(!container.empty() && "Cannot copy from empty container");
+	
+	Iterator back_it = container.end();
+	--back_it;
+	if (it != back_it) {
+		*it = std::move(*back_it);
+	}
+}
+
 } // namespace Detail
 } // namespace Index
 } // namespace Geometry

@@ -37,7 +37,7 @@ protected:
 		Box box, box2;
 		std::unique_ptr<NodeType> second_node = std::make_unique<NodeType>();
 
-		RedistributeElements(node, *second_node);
+		RedistributeElements(node, *second_node, box, box2);
 		assert(MinElements <= node.elements.size() && node.elements.size() <= MaxElements);
 		assert(MinElements <= second_node->elements.size() && second_node->elements.size() <= MaxElements);
 
@@ -45,9 +45,10 @@ protected:
 	}
 
 	template <typename NodeType>
-	void RedistributeElements (NodeType& node, NodeType& second_node) {
+	void RedistributeElements (NodeType& node, NodeType& second_node, Box& box1, Box& box2) {
 		using ElementsType = typename NodeType::ElementsType;
 		using ElementType = typename ElementsType::value_type;
+		using IndexableType = typename ElementIndexableType<ElementType>::Type;
 
 		ElementsType& elements1 = node.elements;
 		ElementsType& elements2 = second_node.elements;
@@ -55,7 +56,6 @@ protected:
 
 		// 원본 요소들을 복사
 		std::vector<ElementType> elements_copy(elements1.begin(), elements1.end());
-		std::vector<ElementType> elements_backup(elements1.begin(), elements1.end());
 
 		// 초기 시드값을 계산
 		size_t seed1;
@@ -66,10 +66,61 @@ protected:
 		elements1.clear();
 		assert(elements2.empty());
 
+		// 시드들을 추가
 		elements1.push_back(elements_copy[seed1]);
 		elements2.push_back(elements_copy[seed2]);
 
-		// TODO
+		// 박스 계산
+		Index::Convert(ElementIndexable(elements_copy[seed1]), box1);
+		Index::Convert(ElementIndexable(elements_copy[seed2]), box2);
+
+		// 시드 삭제
+		MoveFromBack(elements_copy, elements_copy.begin() + seed2);
+		elements_copy.pop_back();
+		MoveFromBack(elements_copy, elements_copy.begin() + seed1);
+		elements_copy.pop_back();
+
+		// 영역 초기화
+		long double content1 = Content(box1);
+		long double content2 = Content(box2);
+
+		size_t remaining = elements_copy.size();
+
+		// 나머지 엘리먼트들도 재분배
+		while (!elements_copy.empty()) {
+			auto it = elements_copy.rbegin();
+			bool insert_into_group1 = false;
+
+			size_t elements1_count = elements1.size();
+			size_t elements2_count = elements2.size();
+
+			if (elements1_count + remaining <= MinElements) {
+				insert_into_group1 = true;
+			} else if (elements2_count + remaining <= MinElements) {
+				insert_into_group1 = false;
+			} else {
+				// TODO
+			}
+
+			// 선택된 그룹으로 엘리먼트를 이동
+			const ElementType& element = *it;
+			const IndexableType& indexable = ElementIndexable(element);
+
+			if (insert_into_group1) {
+				elements1.push_back(element);
+				Expand(box1, indexable);
+				content1 = Content(box1);
+			} else {
+				elements2.push_back(element);
+				Expand(box2, indexable);
+				content2 = Content(box2);
+			}
+
+			MoveFromBack(elements_copy, it.base() - 1);
+			elements_copy.pop_back();
+
+			--remaining;
+		}
 	}
 
 	template <typename Elements>
@@ -83,7 +134,7 @@ protected:
 
 		long double greatest_free_content = 0;
 		size_t seed1 = 0;
-		size_t seed2 = 0;
+		size_t seed2 = 1;
 
 		for (size_t i = 0; i < elements.size() - 1; ++i) {
 			for (size_t j = i + 1; j < elements.size(); ++j) {
